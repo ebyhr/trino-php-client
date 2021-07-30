@@ -15,13 +15,29 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Ytake\PrestoClient\Session;
+namespace Ytake\TrinoClient;
 
 /**
- * Class Property
+ * Class TrinoHeaders
  *
  * @author Yuuki Takezawa <yuuki.takezawa@comnect.jp.net>
  */
-final class Property extends AbstractKeyValueStorage
+final class TrinoHeaders
 {
+    const TRINO_USER = "X-Trino-User";
+    const TRINO_SOURCE = "X-Trino-Source";
+    const TRINO_CATALOG = "X-Trino-Catalog";
+    const TRINO_SCHEMA = "X-Trino-Schema";
+    const TRINO_SESSION = "X-Trino-Session";
+    const TRINO_PREPARED_STATEMENT = "X-Trino-Prepared-Statement";
+    const TRINO_TRANSACTION_ID = "X-Presto-Transaction-Id";
+
+    /** library version */
+    const VERSION = '0.1.0';
+    const TRINO_SOURCE_VALUE = 'TrinoClient';
+
+    private function __construct()
+    {
+        //
+    }
 }

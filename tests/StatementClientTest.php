@@ -6,15 +6,15 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Ytake\PrestoClient\ClientSession;
-use Ytake\PrestoClient\Column;
-use Ytake\PrestoClient\FixData;
-use Ytake\PrestoClient\PrestoHeaders;
-use Ytake\PrestoClient\QueryError;
-use Ytake\PrestoClient\QueryResult;
-use Ytake\PrestoClient\Session\PreparedStatement;
-use Ytake\PrestoClient\Session\Property;
-use Ytake\PrestoClient\StatementStats;
+use Ytake\TrinoClient\ClientSession;
+use Ytake\TrinoClient\Column;
+use Ytake\TrinoClient\FixData;
+use Ytake\TrinoClient\TrinoHeaders;
+use Ytake\TrinoClient\QueryError;
+use Ytake\TrinoClient\QueryResult;
+use Ytake\TrinoClient\Session\PreparedStatement;
+use Ytake\TrinoClient\Session\Property;
+use Ytake\TrinoClient\StatementStats;
 
 /**
  * Class StatementClientTest
@@ -25,7 +25,7 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldNoCurrent()
     {
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             $this->mockClient(StatusCodeInterface::STATUS_OK)
@@ -54,7 +54,7 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
     public function testShouldBeErrorQueryResult()
     {
         $error = file_get_contents(realpath(__DIR__ . '/data/error.json'));
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             $this->mockClient(StatusCodeInterface::STATUS_OK, $error)
@@ -99,7 +99,7 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testShouldThrowRequestException()
     {
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             $this->throwRequestExceptionClient()
@@ -108,11 +108,11 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Ytake\PrestoClient\Exception\QueryErrorException
+     * @expectedException \Ytake\TrinoClient\Exception\QueryErrorException
      */
     public function testShouldThrowQueryErrorException()
     {
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             $this->throwClientExceptionClient()
@@ -122,21 +122,21 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
 
     public function testFunctionalClientProperties()
     {
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             $this->mockClient(StatusCodeInterface::STATUS_OK)
         );
         $property = $this->getProtectProperty($client, 'headers');
         $defaultHeaders = $property->getValue($client);
-        $this->assertArrayHasKey(PrestoHeaders::PRESTO_USER, $defaultHeaders);
+        $this->assertArrayHasKey(TrinoHeaders::TRINO_USER, $defaultHeaders);
         $this->assertArrayHasKey('User-Agent', $defaultHeaders);
 
         $session = $this->session();
         $session->setPreparedStatement(new PreparedStatement('testing', '1'));
         $session->setProperty(new Property('testing', 'testing'));
         $body = file_get_contents(realpath(__DIR__ . '/data/success.json'));
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $session,
             'SELECT * FROM example.hoge.fuga',
             $this->mockClient(StatusCodeInterface::STATUS_OK, $body)
@@ -161,7 +161,7 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/success.json'))),
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/next_response.json'))),
         ]);
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             new Client(['handler' => HandlerStack::create($mock)])
@@ -186,7 +186,7 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/third_response.json'))),
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/fourth_response.json'))),
         ]);
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             new Client(['handler' => HandlerStack::create($mock)])
@@ -228,7 +228,7 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
             new Response(204, [], file_get_contents(realpath(__DIR__ . '/data/third_response.json'))),
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/fourth_response.json'))),
         ]);
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             new Client(['handler' => HandlerStack::create($mock)])
@@ -241,7 +241,7 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Ytake\PrestoClient\Exception\RequestFailedException
+     * @expectedException \Ytake\TrinoClient\Exception\RequestFailedException
      */
     public function testShouldThrowRequestFailedException()
     {
@@ -252,7 +252,7 @@ class StatementClientTest extends \PHPUnit\Framework\TestCase
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/success.json'))),
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/success.json'))),
         ]);
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             new Client(['handler' => HandlerStack::create($mock)])

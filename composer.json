@@ -1,8 +1,8 @@
 {
-  "name": "ytake/php-presto-client",
-  "description": "php prestodb client",
+  "name": "ytake/trino-php-client",
+  "description": "php Trino client",
   "minimum-stability": "stable",
-  "keywords": ["prestodb"],
+  "keywords": ["trino"],
   "license": "BSD-3-Clause",
   "authors": [
     {
@@ -31,7 +31,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Ytake\\PrestoClient\\": "src/"
+      "Ytake\\TrinoClient\\": "TrinoClient/"
     }
   },
   "autoload-dev": {
@@ -43,10 +43,10 @@
   "scripts": {
     "ci": [
       "./vendor/bin/phpunit",
-      "./vendor/bin/phpcpd src/",
-      "./vendor/bin/phploc src/ --log-xml=tests/build/phploc.xml"
+      "./vendor/bin/phpcpd TrinoClient/",
+      "./vendor/bin/phploc TrinoClient/ --log-xml=tests/build/phploc.xml"
     ],
-    "phpcs": "./vendor/bin/phpcs src/ --report-full --report-source --standard=PSR2 --colors",
+    "phpcs": "./vendor/bin/phpcs TrinoClient/ --report-full --report-source --standard=PSR2 --colors",
     "security-checker": "./vendor/bin/security-checker security:check composer.lock"
   }
 }

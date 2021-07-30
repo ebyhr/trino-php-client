@@ -5,9 +5,9 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Ytake\PrestoClient\ClientSession;
-use Ytake\PrestoClient\QueryResult;
-use Ytake\PrestoClient\ResultsSession;
+use Ytake\TrinoClient\ClientSession;
+use Ytake\TrinoClient\QueryResult;
+use Ytake\TrinoClient\ResultsSession;
 
 /**
  * Class ResultsSessionTest
@@ -22,7 +22,7 @@ class ResultsSessionTest extends \PHPUnit\Framework\TestCase
             new Response(204, [], file_get_contents(realpath(__DIR__ . '/data/third_response.json'))),
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/fourth_response.json'))),
         ]);
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             new Client(['handler' => HandlerStack::create($mock)])
@@ -41,7 +41,7 @@ class ResultsSessionTest extends \PHPUnit\Framework\TestCase
             new Response(204, [], file_get_contents(realpath(__DIR__ . '/data/third_response.json'))),
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/fourth_response.json'))),
         ]);
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             new Client(['handler' => HandlerStack::create($mock)])
@@ -49,13 +49,13 @@ class ResultsSessionTest extends \PHPUnit\Framework\TestCase
         $resultSession = new ResultsSession($client);
         $result = $resultSession->execute()->yieldResults();
         $this->assertInstanceOf(\Generator::class, $result);
-        /** @var \Ytake\PrestoClient\QueryResult $row */
+        /** @var \Ytake\TrinoClient\QueryResult $row */
         foreach ($result as $row) {
             $this->assertInstanceOf(QueryResult::class, $row);
             $this->assertInstanceOf(\Generator::class, $row->yieldData());
             foreach ($row->yieldData() as $item) {
                 if (!is_null($item)) {
-                    $this->assertInstanceOf(\Ytake\PrestoClient\FixData::class, $item);
+                    $this->assertInstanceOf(\Ytake\TrinoClient\FixData::class, $item);
                 }
             }
         }
@@ -69,7 +69,7 @@ class ResultsSessionTest extends \PHPUnit\Framework\TestCase
             new Response(204, [], file_get_contents(realpath(__DIR__ . '/data/third_response.json'))),
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/fourth_response.json'))),
         ]);
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             new Client(['handler' => HandlerStack::create($mock)])
@@ -94,14 +94,14 @@ class ResultsSessionTest extends \PHPUnit\Framework\TestCase
             new Response(204, [], file_get_contents(realpath(__DIR__ . '/data/third_response.json'))),
             new Response(200, [], file_get_contents(realpath(__DIR__ . '/data/fourth_response.json'))),
         ]);
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             new Client(['handler' => HandlerStack::create($mock)])
         );
         $resultSession = new ResultsSession($client);
         $result = $resultSession->execute()->yieldResults();
-        /** @var \Ytake\PrestoClient\QueryResult $row */
+        /** @var \Ytake\TrinoClient\QueryResult $row */
         foreach ($result as $row) {
             foreach ($row->yieldObject(MockResultTest::class) as $item) {
                 if (!is_null($item)) {

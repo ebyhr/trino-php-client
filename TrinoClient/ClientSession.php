@@ -15,11 +15,11 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Ytake\PrestoClient;
+namespace Ytake\TrinoClient;
 
 use Ramsey\Uuid\UuidInterface;
-use Ytake\PrestoClient\Session\Property;
-use Ytake\PrestoClient\Session\PreparedStatement;
+use Ytake\TrinoClient\Session\Property;
+use Ytake\TrinoClient\Session\PreparedStatement;
 
 /**
  * Class PrestoSession
@@ -44,10 +44,10 @@ class ClientSession
     protected $header = [];
 
     /** @var string */
-    protected $user = 'presto';
+    protected $user = 'trino';
 
     /** @var string */
-    protected $source = PrestoHeaders::PRESTO_SOURCE_VALUE;
+    protected $source = TrinoHeaders::TRINO_SOURCE_VALUE;
 
     /** @var Property[] */
     protected $property = [];
