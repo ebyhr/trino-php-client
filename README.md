@@ -1,6 +1,6 @@
 # Ytake\TrinoClient
 
-[![Build Status](http://img.shields.io/travis/ebyhr/trino-php-client/master.svg?style=flat-square)](https://travis-ci.org/ebyhr/trino-php-client)
+[![ci](https://github.com/ebyhr/trino-php-client/actions/workflows/ci.yml/badge.svg)](https://github.com/ebyhr/trino-php-client/actions/workflows/ci.yml)
 
 ## Install
 
