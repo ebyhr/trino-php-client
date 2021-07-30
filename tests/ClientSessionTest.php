@@ -1,8 +1,8 @@
 <?php
 
-use Ytake\PrestoClient\ClientSession;
-use Ytake\PrestoClient\Session\PreparedStatement;
-use Ytake\PrestoClient\Session\Property;
+use Ytake\TrinoClient\ClientSession;
+use Ytake\TrinoClient\Session\PreparedStatement;
+use Ytake\TrinoClient\Session\Property;
 
 /**
  * Class ClientSessionTest
@@ -16,9 +16,9 @@ class ClientSessionTest extends \PHPUnit\Framework\TestCase
         $session = new ClientSession('http://localhost', 'testing');
         $this->assertSame('testing', $session->getCatalog());
         $this->assertSame('http://localhost', $session->getHost());
-        $this->assertSame('PrestoClient', $session->getSource());
+        $this->assertSame('TrinoClient', $session->getSource());
         $this->assertSame('default', $session->getSchema());
-        $this->assertSame('presto', $session->getUser());
+        $this->assertSame('trino', $session->getUser());
         $this->assertNull($session->getTransactionId());
         $this->assertCount(0, $session->getProperty());
         $this->assertCount(0, $session->getPreparedStatement());
@@ -29,8 +29,8 @@ class ClientSessionTest extends \PHPUnit\Framework\TestCase
         $session = new ClientSession('http://localhost', 'testing');
         $session->setSchema('testing');
         $this->assertSame('testing', $session->getSchema());
-        $session->setSource('testingPresto');
-        $this->assertSame('testingPresto', $session->getSource());
+        $session->setSource('testingTrino');
+        $this->assertSame('testingTrino', $session->getSource());
         $uuid = \Ramsey\Uuid\Uuid::uuid4();
         $session->setTransactionId($uuid);
         $this->assertSame($uuid, $session->getTransactionId());

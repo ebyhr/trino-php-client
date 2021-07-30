@@ -15,13 +15,44 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Ytake\PrestoClient\Exception;
+namespace Ytake\TrinoClient\Session;
 
 /**
- * Class QueryErrorException
+ * Class AbstractKeyValueStorage
  *
  * @author Yuuki Takezawa <yuuki.takezawa@comnect.jp.net>
  */
-final class QueryErrorException extends \Exception
+abstract class AbstractKeyValueStorage
 {
+    /** @var string */
+    private $key;
+
+    /** @var string */
+    private $value;
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function __construct(string $key, string $value)
+    {
+        $this->key = $key;
+        $this->value = $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 }

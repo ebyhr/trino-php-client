@@ -15,57 +15,13 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Ytake\PrestoClient;
+namespace Ytake\TrinoClient\Exception;
 
 /**
- * Class Column
+ * Class QueryErrorException
  *
  * @author Yuuki Takezawa <yuuki.takezawa@comnect.jp.net>
  */
-final class Column
+final class QueryErrorException extends \Exception
 {
-    /** @var string */
-    private $name = '';
-
-    /** @var string */
-    private $type = '';
-
-    /** @var \stdClass */
-    private $typeSignature;
-
-    /**
-     * Column constructor.
-     *
-     * @param \stdClass $jsonContent
-     */
-    public function __construct(\stdClass $jsonContent)
-    {
-        $this->name = $jsonContent->name;
-        $this->type = $jsonContent->type;
-        $this->typeSignature = $jsonContent->typeSignature;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTypeSignature()
-    {
-        return $this->typeSignature;
-    }
 }

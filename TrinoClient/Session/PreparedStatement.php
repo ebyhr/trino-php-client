@@ -15,44 +15,13 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Ytake\PrestoClient\Session;
+namespace Ytake\TrinoClient\Session;
 
 /**
- * Class AbstractKeyValueStorage
+ * Class PreparedStatement
  *
  * @author Yuuki Takezawa <yuuki.takezawa@comnect.jp.net>
  */
-abstract class AbstractKeyValueStorage
+final class PreparedStatement extends AbstractKeyValueStorage
 {
-    /** @var string */
-    private $key;
-
-    /** @var string */
-    private $value;
-
-    /**
-     * @param string $key
-     * @param string $value
-     */
-    public function __construct(string $key, string $value)
-    {
-        $this->key = $key;
-        $this->value = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getKey(): string
-    {
-        return $this->key;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue(): string
-    {
-        return $this->value;
-    }
 }

@@ -15,7 +15,7 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Ytake\PrestoClient;
+namespace Ytake\TrinoClient;
 
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Client;
@@ -27,9 +27,9 @@ use GuzzleHttp\Exception\RequestException;
 use Fig\Http\Message\StatusCodeInterface;
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
-use Ytake\PrestoClient\Exception\QueryErrorException;
-use Ytake\PrestoClient\Exception\RequestFailedException;
-use Ytake\PrestoClient\Session\Property;
+use Ytake\TrinoClient\Exception\QueryErrorException;
+use Ytake\TrinoClient\Exception\RequestFailedException;
+use Ytake\TrinoClient\Session\Property;
 
 /**
  * Class StatementClient
@@ -93,8 +93,8 @@ class StatementClient
     {
         $this->headers = array_merge(
             [
-                PrestoHeaders::PRESTO_USER => $this->session->getUser(),
-                'User-Agent'               => $this->session->getSource() . '/' . PrestoHeaders::VERSION
+                TrinoHeaders::TRINO_USER => $this->session->getUser(),
+                'User-Agent'               => $this->session->getSource() . '/' . TrinoHeaders::VERSION
             ],
             $this->session->getHeader()
         );
@@ -109,10 +109,10 @@ class StatementClient
     {
         $sessionTransaction = $this->session->getTransactionId();
         $transactionId = is_null($sessionTransaction) ? 'NONE' : $sessionTransaction->toString();
-        $request = $request->withAddedHeader(PrestoHeaders::PRESTO_CATALOG, $this->session->getCatalog())
-            ->withAddedHeader(PrestoHeaders::PRESTO_SCHEMA, $this->session->getSchema())
-            ->withAddedHeader(PrestoHeaders::PRESTO_SOURCE, $this->session->getSource())
-            ->withAddedHeader(PrestoHeaders::PRESTO_TRANSACTION_ID, $transactionId);
+        $request = $request->withAddedHeader(TrinoHeaders::TRINO_CATALOG, $this->session->getCatalog())
+            ->withAddedHeader(TrinoHeaders::TRINO_SCHEMA, $this->session->getSchema())
+            ->withAddedHeader(TrinoHeaders::TRINO_SOURCE, $this->session->getSource())
+            ->withAddedHeader(TrinoHeaders::TRINO_TRANSACTION_ID, $transactionId);
         $sessionProperty = $this->session->getProperty();
         if (count($sessionProperty)) {
             $sessions = [];
@@ -121,7 +121,7 @@ class StatementClient
                 $sessions[] = $property->getKey() . '=' . $property->getValue();
             }
             $request = $request->withAddedHeader(
-                PrestoHeaders::PRESTO_SESSION,
+                TrinoHeaders::TRINO_SESSION,
                 implode(',', $sessions)
             );
         }
@@ -133,7 +133,7 @@ class StatementClient
                     . '=' . urlencode($preparedStatement->getValue());
             }
             $request = $request->withAddedHeader(
-                PrestoHeaders::PRESTO_PREPARED_STATEMENT,
+                TrinoHeaders::TRINO_PREPARED_STATEMENT,
                 implode(',', $statements)
             );
         }

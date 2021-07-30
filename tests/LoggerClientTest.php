@@ -5,8 +5,8 @@ use Monolog\Handler\TestHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Handler\MockHandler;
-use Ytake\PrestoClient\LoggerClient;
-use Ytake\PrestoClient\ClientSession;
+use Ytake\TrinoClient\LoggerClient;
+use Ytake\TrinoClient\ClientSession;
 
 /**
  * Class LoggerClientTest
@@ -24,7 +24,7 @@ class LoggerClientTest extends \PHPUnit\Framework\TestCase
         $logger->pushHandler($testHandler);
         $loggerClient = new LoggerClient($logger);
 
-        $client = new \Ytake\PrestoClient\StatementClient(
+        $client = new \Ytake\TrinoClient\StatementClient(
             $this->session(),
             'SELECT * FROM example.hoge.fuga',
             $loggerClient->client($mock)

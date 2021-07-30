@@ -15,13 +15,13 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Ytake\PrestoClient\Session;
+namespace Ytake\TrinoClient\Session;
 
 /**
- * Class PreparedStatement
+ * Class Property
  *
  * @author Yuuki Takezawa <yuuki.takezawa@comnect.jp.net>
  */
-final class PreparedStatement extends AbstractKeyValueStorage
+final class Property extends AbstractKeyValueStorage
 {
 }

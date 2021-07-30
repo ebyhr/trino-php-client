@@ -11,7 +11,7 @@
          bootstrap="vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="presto client Test Suite">
+        <testsuite name="Trino client Test Suite">
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
